@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  frontend:
+    container_name: ec-site-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/usr/src/app
+      - frontend-node-modules:/usr/src/app/node_modules
+  backend:
+    container_name: ec-site-backend
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    tty: true
+    ports:
+      - "3100:3100"
+      - "5555:5555"
+    volumes:
+      - ./backend:/usr/src/app
+      - backend-node-modules:/usr/src/app/node_modules
+    depends_on:
+      - db
+    restart: always
+  db:
+    image: postgres:16.1
+    container_name: ec-site-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ec-site
+      POSTGRES_PASSWORD: auT*k!K9Tp(8
+    restart: always
+volumes:
+  frontend-node-modules:
+  backend-node-modules:
