@@ -1,5 +1,5 @@
 # Base image
-FROM node:21-bookworm-slim
+FROM node:21-bookworm-slim AS base
 
 RUN apt-get update && \
     apt-get install -y locales curl
@@ -17,6 +17,7 @@ ENV NODE_ENV development
 USER node
 
 # Create app directory
+FROM base AS build
 WORKDIR /usr/src/app
 
 USER root
@@ -35,3 +36,9 @@ USER node
 EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
+
+# Hosting in nginx
+FROM nginx:latest AS production
+COPY --from=build /workspace/build /var/www
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
