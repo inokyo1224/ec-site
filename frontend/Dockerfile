@@ -27,7 +27,7 @@ USER node
 
 COPY --chown=node:node package*.json ./
 
-RUN npm ci && npm run build
+RUN npm ci
 
 COPY --chown=node:node . .
 
