@@ -30,8 +30,8 @@ RUN npm ci
 
 COPY --chown=node:node . .
 
-RUN npx prisma generate
 
+# RUN npx prisma generate
 RUN npm run build
 
 USER node
