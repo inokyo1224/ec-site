@@ -27,7 +27,7 @@ USER node
 
 COPY --chown=node:node package*.json ./
 
-RUN npm ci
+RUN npm ci && npm run build
 
 COPY --chown=node:node . .
 
@@ -41,6 +41,6 @@ CMD ["npm", "run", "dev"]
 FROM nginx:latest AS production
 
 RUN mkdir /var/www
-COPY --from=build /usr/src/app /var/www
+COPY --from=build /usr/src/app/build /var/www
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
