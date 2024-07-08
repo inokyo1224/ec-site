@@ -37,14 +37,9 @@ EXPOSE 3000
 
 CMD ["npm", "run", "dev"]
 
-
-# FROM build AS production
-
-
 # Hosting in nginx
 FROM nginx:latest AS production
 
-RUN mkdir /var/www
-COPY --from=build /usr/src/app /var/www
+COPY --from=build /usr/src/app /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
